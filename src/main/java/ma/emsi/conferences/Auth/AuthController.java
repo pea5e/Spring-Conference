@@ -43,6 +43,7 @@ public class AuthController {
 
         auth.register(user,r.ROLE());
         model.addAttribute("url", EnvLinks.SERVER.URL()+"/admin/login");
+        //
         return "redirect";
     }
 
