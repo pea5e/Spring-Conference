@@ -22,6 +22,7 @@ public class Conference {
     private String Title;
     private int Duree_minutes;
     private float prix;
+    private String image;
 
 
 }
