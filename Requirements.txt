@@ -1,0 +1,2 @@
+https://www.npmjs.com/package/html5-qrcode/v/1.2.1
+https://github.com/abdabughazaleh/spring-boot-course-in-arabic
