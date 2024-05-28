@@ -27,7 +27,8 @@ public class ParController {
     @GetMapping("/")
     public String  home(Model model)
     {
-        model.addAttribute("confs",Service.getConfs().stream().filter(c -> c.getReservations().size()<c.getSalle().getNombre_places()).collect(Collectors.toList()));
+//        model.addAttribute("confs",Service.getConfs().stream().filter(c -> c.getReservations().size()<c.getSalle().getNombre_places()).collect(Collectors.toList()));
+        model.addAttribute("confs",Service.getConfs());
         return "index";
     }
     @GetMapping("/?q={q}")

@@ -52,7 +52,8 @@
                 <h4 th:text="${conf.getDate().toString()+' '+conf.getDuree_minutes()+'minutes'}" class="card-title"></h4>
                 <p th:text="${conf.getDescription()}" class="card-text"></p>
             </div>
-            <button type="button" data-toggle="modal" data-target="#ModalCenter" th:onclick="'reserve(' + ${conf.getId()} + ')'" class="btn btn-primary w-100">Reserver</button>
+            <button th:if="${conf.getReservations().size() < conf.getSalle().getNombre_places()}" type="button" data-toggle="modal" data-target="#ModalCenter" th:onclick="'reserve(' + ${conf.getId()} + ')'" class="btn btn-primary w-100">Reserver</button>
+            <button th:unless="${conf.getReservations().size() < conf.getSalle().getNombre_places()}" type="button"  class="btn btn-secondary w-100">nombre complète</button>
         </div>
     </div>
     <div class="modal" id="ModalCenter">
