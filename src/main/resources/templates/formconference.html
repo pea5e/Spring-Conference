@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,11 +53,8 @@
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" href="users">Users</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="conferences">Conferneces</a>
-                </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="salles">Salles</a>
+                    <a class="nav-link" href="conferences">Salles</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -66,10 +63,20 @@
         </div>
     </div>
 </nav>
-<main>
-    <form>
-        <h1>Gestion de Conferences <span th:text="${role}"></span></h1>
-    </form>
-</main>
+        <form method="post" >
+            <label for="Title" class="form-label mt-4">Titre</label>
+            <input type="text" required  id="Title" name="Title" class="form-control"   placeholder="Enter Title">
+                <label for="date" class="form-label mt-4">date</label>
+                <input type="date" required  id="date" name="date" class="form-control"  placeholder="Enter date">
+                <label for="Description" class="form-label mt-4">Description</label>
+                <input type="text" required  id="Description" name="description" class="form-control"  placeholder="Enter Description">
+                <label for="duree_minutes" class="form-label mt-4">duree</label>
+                <input type="number" required  id="duree_minutes" name="duree_minutes" class="form-control"  placeholder="Enter duree">
+                <select name="salle">
+                    <option th:each="salle: ${salles}" th:value="${salle.getId()}" th:text="${salle.getName()+' '+salle.getNombre_places()}" ></option>
+                </select>
+                <input type="hidden" name="org" th:value="${user.get().getId()}">
+                <button type="submit" class="btn btn-success">sauvegarder</button>
+        </form>
 </body>
 </html>

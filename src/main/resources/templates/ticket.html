@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Activation</title>
+    <title>Ticket</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,16 +41,10 @@
 </head>
 <body>
 <div class="container">
-    <h1>Email Verification</h1>
+    <h1>Votre Ticket</h1>
     <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
-    <p>Merci de vous être inscrit. Veuillez utiliser le code d'activation suivant pour activer votre compte:</p>
-    <form th:action="${confirmationUrl}" method="POST" target="_blank">
-        <input type="hidden" name="email" th:value="${email}">
-        <div class="activation-code"><input name="code" type="text" readonly="readonly" th:value="${activation_code}"/></div>
-        <div class="activation-link">
-            <input type="submit" value="Activate your account"/>
-        </div>
-    </form>
+    <p>Merci pour votre réservation</p>
+    <img th:src="'https://quickchart.io/qr?text='+${code}">
 </div>
 </body>
 </html>

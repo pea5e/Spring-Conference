@@ -1,13 +1,17 @@
 package ma.emsi.conferences.Salle;
 
 
+import ma.emsi.conferences.EnvLinks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping(path = "api/v1/salle")
+@Controller
+@RequestMapping(path = "/admin/salles")
 public class SalleController {
 
     private SalleService Service;
@@ -19,30 +23,57 @@ public class SalleController {
     }
 
 
-    @GetMapping(path = "{id}")
-    public Optional<Salle> getSalle(@PathVariable(value = "id")int id)
+    @GetMapping(path = "")
+    public String getSalles(Model model)
     {
-        return Service.getSalle(id);
+        model.addAttribute("salles",Service.getSalles());
+        return "salles";
     }
 
+//    @GetMapping(path = "{id}")
+//    public String getSalle(@PathVariable(value = "id")int id,Model model)
+//    {
+//        model.addAttribute("salle",Service.getSalle(id));
+//        return "salle";
+//    }
+
+
+    @GetMapping(path = "add")
+    public String AjouterSallePage(Model model)
+    {
+        model.addAttribute("salle",new Salle(-1,1,null));
+        return "formsalle";
+    }
+
+    @GetMapping(path = "edit/{id}")
+    public String ModifierSallePage(@PathVariable(value = "id")int id,Model model)
+    {
+        model.addAttribute("salle",Service.getSalle(id).get());
+        return "formsalle";
+    }
 
     @PostMapping(path = "add")
-    public Boolean AjouterSalle(@RequestBody Salle s)
+    public String AjouterSalle(Salle s,Model model)
     {
         Service.AddSalle(s);
-        return true;
+        model.addAttribute("url", EnvLinks.SERVER.URL()+"/admin/salles");
+        return "redirect";
     }
 
-    @PostMapping(path = "/update")
-    public Boolean PutSalle(@RequestBody Salle s)
+    @PostMapping(path = "edit/{id}")
+    public String PutSalle(Salle s,Model model)
     {
-        return Service.EditSalle(s);
+        Service.AddSalle(s);
+        model.addAttribute("url", EnvLinks.SERVER.URL()+"/admin/salles");
+        return "redirect";
     }
 
-    @DeleteMapping(path = "/delete/{id}")
-    public Boolean RemoveSalle(@PathVariable(value = "id")int id)
+    @GetMapping(path = "delete/{id}")
+    public String RemoveSalle(@PathVariable(value = "id")int id,Model model)
     {
-        return Service.DeleteSalle(id);
+            Service.DeleteSalle(id);
+            model.addAttribute("url", EnvLinks.SERVER.URL()+"/admin/salles");
+            return "redirect";
     }
 
 

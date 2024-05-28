@@ -1,4 +1,10 @@
 package ma.emsi.conferences.Conference;
 
-public interface IConferenceRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface IConferenceRepository extends JpaRepository<Conference, Integer> {
+
 }

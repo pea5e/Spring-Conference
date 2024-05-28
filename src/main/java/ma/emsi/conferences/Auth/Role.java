@@ -2,7 +2,7 @@ package ma.emsi.conferences.Auth;
 
 public enum Role {
 
-    ORG("ORG"),USER("USER");
+    ORG("ORG"),USER("USER"),ADMIN("ADMIN");
     private Role(final String REFERER)
     {
         this.ref = REFERER;

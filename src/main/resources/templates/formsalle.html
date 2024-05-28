@@ -56,9 +56,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="conferences">Conferneces</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="salles">Salles</a>
-                </li>
             </ul>
             <div class="d-flex">
                 <a href="/logout"><button class="btn btn-secondary my-2 my-sm-0" type="button">Logout</button></a>
@@ -67,9 +64,29 @@
     </div>
 </nav>
 <main>
-    <form>
-        <h1>Gestion de Conferences <span th:text="${role}"></span></h1>
-    </form>
+    <main>
+        <form method="post" >
+            <fieldset>
+                <input type="hidden"  id="id" th:value="${salle.getId()}">
+                <div>
+                    <label for="name" class="form-label mt-4">Nom</label>
+                    <input type="text" required th:value="${salle.getName()}" id="name" name="name" class="form-control"   placeholder="Enter nom">
+                </div>
+                <div>
+                    <label for="nombre_places" class="form-label mt-4">nombre de places</label>
+                    <input type="number" required min="1" th:value="${salle.getNombre_places()}" id="nombre_places" name="nombre_places" class="form-control"   placeholder="Enter nombre de places">
+                </div>
+                <button type="submit" class="btn btn-success">sauvegarder</button>
+            </fieldset>
+        </form>
+    </main>
+    <script>
+        if (document.getElementById("id").value==="-1")
+        {
+            document.getElementById("id").remove();
+        }
+
+    </script>
 </main>
 </body>
 </html>

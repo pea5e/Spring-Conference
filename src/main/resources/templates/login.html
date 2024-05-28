@@ -42,19 +42,17 @@
       <main>
         <form method="post" th:action="@{login}">
             <fieldset>
-                
-                    <!-- <input type="text" value="correct value" class="form-control is-valid" id="inputValid">
-                    <input type="text" value="wrong value" class="form-control is-invalid" id="inputInvalid"> -->
               
               <div>
                 <label for="username" class="form-label mt-4">Email</label>
-                <input type="text" id="username" name="username" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
-                <div class="valid-feedback">Mail pas trouvé</div>
+                <input type="text" required id="username" onchange="isused(this)" name="username" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+<!--                <div class="valid-feedback">Mail trouvé</div>-->
                 <div class="invalid-feedback">Mail pas trouvé</div>
               </div>
               <div>
                 <label for="password" class="form-label mt-4">Mot de passe</label>
-                <input type="password" id="password" name="password" class="form-control"  placeholder="Password" autocomplete="off">
+                <input type="password" required id="password" name="password" class="form-control"  placeholder="Password" autocomplete="off">
+                  <div class="invalid-feedback">Mot de passe invalide</div>
               </div>
               <button type="submit" class="btn btn-success">Login</button>
               <!-- type="button" btn-secondary -->
@@ -62,12 +60,52 @@
             </fieldset>
           </form>
       </main>
+      <script sec:authorize="isAuthenticated()">
+          window.location.href = "/admin/home";
+      </script>
       <script>
           var url = new URL(window.location.href);
-          var c = url.searchParams.get("continue");
-          if(c!==null)
+          if(url.searchParams.get("continue")!==null)
           {
               window.location.href = "/admin/home";
+          }
+          else if(url.searchParams.get("error")!==null)
+          {
+                var password = document.getElementById("password");
+              document.getElementsByClassName("invalid-feedback")[1].innerHTML = url.searchParams.get("error");
+              password.classList.add("is-invalid");
+
+          }
+          else if(url.searchParams.get("logout")!==null)
+          {
+              window.location.href = "/admin/login";
+
+          }
+
+          function isused(mail) {
+              fetch("/api/v1/auth/used", {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({"mail": mail.value}),
+              })
+                  .then((res) => res.text())
+                  .then((data) => {
+                      var submit = document.getElementsByTagName("button")[0];
+                      if (data === "not found" && !mail.classList.contains("is-invalid")) {
+                          mail.classList.add("is-invalid");
+                          submit.setAttribute('type', 'button');
+                          submit.classList.remove("btn-success");
+                          submit.classList.add("btn-secondary");
+                      }
+                      else if (data === "found" && mail.classList.contains("is-invalid")){
+                          mail.classList.remove("is-invalid");
+                          submit.setAttribute('type', 'submit');
+                          submit.classList.add("btn-success");
+                          submit.classList.remove("btn-secondary");
+                      }
+                  });
           }
       </script>
 </body>
