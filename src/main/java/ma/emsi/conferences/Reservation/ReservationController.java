@@ -38,8 +38,9 @@ public class ReservationController {
         Random rand = new Random();
         for(int i=0;i<30;i++)
         {
-            code += 'a'+rand.nextInt(26);
+            code += (char) 97+rand.nextInt(26);
         }
+        System.out.println(code);
         Res.add(new Reservation(0,c.getReservations().size()+1,code,c,email));
         emailService.Sendticket(code,email);
 
